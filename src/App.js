@@ -1,21 +1,21 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {
-  Header,
+  // Header,
   Home,
   About,
   Team,
   Structure,
   Depositions,
   Contact,
-  Footer,
+  // Footer,
 } from './src/pages'
 
 function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
-        <Header />
+        {/* <Header /> */}
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -26,7 +26,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </Router>
   );
