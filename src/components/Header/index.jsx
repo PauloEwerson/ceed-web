@@ -10,8 +10,6 @@ import {
 
 // https://tailwindui.com/components/marketing/elements/headers
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleNavbar = () => {
@@ -35,22 +33,22 @@ export default function Header() {
           <button
             type="button"
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
-            onClick={() => setMobileMenuOpen(true)}
+            onClick={() => toggleNavbar()}
           >
             <span className="sr-only">Abrir menu</span>
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <Link to="/" className="text-sm font-semibold leading-6" onClick={toggleNavbar}>Início</Link>
-          <Link to="/about" className="text-sm font-semibold leading-6" onClick={toggleNavbar}>Sobre</Link>
-          <Link to="/team" className="text-sm font-semibold leading-6" onClick={toggleNavbar}>Equipe</Link>
-          <Link to="/structure" className="text-sm font-semibold leading-6" onClick={toggleNavbar}>Estrutura</Link>
-          <Link to="/depositions" className="text-sm font-semibold leading-6" onClick={toggleNavbar}>Depoimentos</Link>
+          <Link to="/" className="text-sm font-semibold leading-6">Início</Link>
+          <Link to="/about" className="text-sm font-semibold leading-6">Sobre</Link>
+          <Link to="/team" className="text-sm font-semibold leading-6">Equipe</Link>
+          <Link to="/structure" className="text-sm font-semibold leading-6">Estrutura</Link>
+          <Link to="/depositions" className="text-sm font-semibold leading-6">Depoimentos</Link>
           <Link to="/contact" className="text-sm font-semibold leading-6">Contato</Link>
         </Popover.Group>
       </nav>
-      <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
+      <Dialog as="div" className="lg:hidden" open={isExpanded} onClose={toggleNavbar}>
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel
           focus="true"
@@ -68,7 +66,7 @@ export default function Header() {
             <button
               type="button"
               className="-m-2.5 rounded-md p-2.5 text-white"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => toggleNavbar()}
             >
               <span className="sr-only">Fechar menu</span>
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -82,7 +80,7 @@ export default function Header() {
                 <Link to="/team" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={toggleNavbar}>Equipe</Link>
                 <Link to="/structure" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={toggleNavbar}>Estrutura</Link>
                 <Link to="/depositions" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={toggleNavbar}>Depoimentos</Link>
-                <Link to="/contact" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600">Contato</Link>
+                <Link to="/contact" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={toggleNavbar}>Contato</Link>
               </div>
             </div>
           </div>
