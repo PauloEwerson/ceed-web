@@ -4,5 +4,5 @@ export { default as Team } from './Team';
 export { default as Structure } from './Structure';
 export { default as Depositions } from './Depositions';
 export { default as Contact } from './Contact';
-export { default as Header } from './Header';
-export { default as Footer } from './Footer';
+export { default as Header } from '../components/Header';
+export { default as Footer } from '../components/Footer';
