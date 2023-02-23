@@ -5,7 +5,7 @@ import {
   Header,
   Home,
   About,
-  // Team,
+  Team,
   // Structure,
   // Depositions,
   // Contact,
@@ -20,6 +20,7 @@ function App() {
         <main className="flex-grow">
           <Home />
           <About />
+          <Team />
           {/* <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
