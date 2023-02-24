@@ -3,7 +3,7 @@ import Button from '../../components/Button';
 
 function Home() {
   const handlePreMatricula = () => {
-    window.location.href = 'https://forms.gle/UGcNJFnLkXMSNTta8';
+    window.location.href = 'https://forms.gle/e8fAuNxiQGyvnPUa6';
   };
 
   const handleAgenda = () => {
