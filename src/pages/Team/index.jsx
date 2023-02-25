@@ -47,8 +47,8 @@ export default function Team() {
 
   return (
     <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-16">
-      <div className="container mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="mb-8 md:mb-0">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 justify-around flex flex-col md:flex-row lg:flex-row xl:flex-row">
+        <div className="mb-8 md:mb-0 flex flex-col w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
           <h1 className="my-2 text-5xl font-bold leading-tight text-left text-title-blue">
             <span className="text-white">|</span> Equipe</h1>
           <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
@@ -67,7 +67,7 @@ export default function Team() {
             ))}
           </section>
         </div>
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center justify-center w-full md:w-full lg:w-1/2 xl:w-1/2">
           <Carousel images={optionsToImages[selectedOption]} />
         </div>
       </div>
