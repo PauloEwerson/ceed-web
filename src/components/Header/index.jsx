@@ -16,6 +16,15 @@ export default function Header() {
     setIsExpanded(!isExpanded);
   };
 
+  const handleLinkClick = (e, id) => {
+    e.preventDefault();
+  
+    const element = document.getElementById(id);
+    element.scrollIntoView({ behavior: "smooth" });
+  
+    setIsExpanded(false);
+  };
+
   return (
     <header className="bg-juicy-blue-space-light fixed w-full text-white z-10">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -40,12 +49,12 @@ export default function Header() {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <Link to="/" className="text-sm font-semibold leading-6">Início</Link>
-          <Link to="/about" className="text-sm font-semibold leading-6">Sobre</Link>
-          <Link to="/team" className="text-sm font-semibold leading-6">Equipe</Link>
-          <Link to="/structure" className="text-sm font-semibold leading-6">Estrutura</Link>
-          <Link to="/depositions" className="text-sm font-semibold leading-6">Depoimentos</Link>
-          <Link to="/contact" className="text-sm font-semibold leading-6">Contato</Link>
+          <Link to="/#home" className="text-sm font-semibold leading-6" onClick={(e) => handleLinkClick(e, "home")}>Início</Link>
+          <Link to="/#about" className="text-sm font-semibold leading-6" onClick={(e) => handleLinkClick(e, "about")}>Sobre</Link>
+          <Link to="/#team" className="text-sm font-semibold leading-6" onClick={(e) => handleLinkClick(e, "team")}>Equipe</Link>
+          <Link to="/#structure" className="text-sm font-semibold leading-6" onClick={(e) => handleLinkClick(e, "structure")}>Estrutura</Link>
+          {/* <Link to="/#depositions" className="text-sm font-semibold leading-6" onClick={(e) => handleLinkClick(e, "depositions")}>Depoimentos</Link> */}
+          {/* <Link to="/#contact" className="text-sm font-semibold leading-6" onClick={(e) => handleLinkClick(e, "contact")}>Contato</Link> */}
         </Popover.Group>
       </nav>
       <Dialog as="div" className="lg:hidden" open={isExpanded} onClose={toggleNavbar}>
@@ -75,12 +84,12 @@ export default function Header() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6 text-center">
-                <Link to="/" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={toggleNavbar}>Início</Link>
-                <Link to="/about" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={toggleNavbar}>Sobre</Link>
-                <Link to="/team" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={toggleNavbar}>Equipe</Link>
-                <Link to="/structure" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={toggleNavbar}>Estrutura</Link>
-                <Link to="/depositions" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={toggleNavbar}>Depoimentos</Link>
-                <Link to="/contact" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={toggleNavbar}>Contato</Link>
+                <Link to="/#home" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={(e) => {toggleNavbar(); handleLinkClick(e, "home")}}>Início</Link>
+                <Link to="/#about" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={(e) => {toggleNavbar(); handleLinkClick(e, "about")}}>Sobre</Link>
+                <Link to="/#team" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={(e) => {toggleNavbar(); handleLinkClick(e, "team")}}>Equipe</Link>
+                <Link to="/#structure" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={(e) => {toggleNavbar(); handleLinkClick(e, "structure")}}>Estrutura</Link>
+                {/* <Link to="/#depositions" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={(e) => {toggleNavbar(); handleLinkClick(e, "depositions")}}>Depoimentos</Link> */}
+                {/* <Link to="/#contact" className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50 hover:text-gray-600" onClick={(e) => {toggleNavbar(); handleLinkClick(e, "contact")}}>Contato</Link> */}
               </div>
             </div>
           </div>
