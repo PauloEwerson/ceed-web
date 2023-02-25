@@ -46,7 +46,7 @@ export default function Team() {
   };
 
   return (
-    <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-16">
+    <div id="team" className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-16">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 justify-around flex flex-col md:flex-row lg:flex-row xl:flex-row">
         <div className="mb-8 md:mb-0 flex flex-col w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
           <h1 className="my-2 text-5xl font-bold leading-tight text-left text-title-blue">

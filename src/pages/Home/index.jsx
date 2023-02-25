@@ -11,7 +11,7 @@ function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-juicy-blue-space-light bg-body-stars">
+    <div id="home" className="flex flex-col items-center justify-center h-screen bg-juicy-blue-space-light bg-body-stars">
       <img src="/logo.png" alt="Centro Educacional Estrela Dalva" className="w-60" />
       <h1 className="text-4xl font-bold mt-8 text-slate-100 text-center">
         Nossa constelação é formada por estrelas como você
