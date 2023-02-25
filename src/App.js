@@ -6,7 +6,7 @@ import {
   Home,
   About,
   Team,
-  // Structure,
+  Structure,
   // Depositions,
   // Contact,
   // // Footer,
@@ -21,6 +21,7 @@ function App() {
           <Home />
           <About />
           <Team />
+          <Structure />
           {/* <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
