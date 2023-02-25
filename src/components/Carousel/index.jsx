@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "tailwindcss/tailwind.css";
 
-const CarouselTeam = ({ images }) => {
+const Carousel = ({ images }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const nextSlide = () => {
@@ -64,5 +64,5 @@ const CarouselTeam = ({ images }) => {
   );
 };
 
-export default CarouselTeam;
+export default Carousel;
 

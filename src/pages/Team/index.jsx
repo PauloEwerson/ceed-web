@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import CarouselTeam from '../../components/CarouselTeam'
+import Carousel from '../../components/Carousel'
 import Maternalzinho1 from '../../assets/images/equipe/maternalzinho-1.jpg';
 import Maternalzinho2 from '../../assets/images/equipe/maternalzinho-2.jpg';
 import Maternal1 from '../../assets/images/equipe/maternal-1.jpg';
@@ -68,7 +68,7 @@ export default function Team() {
           </section>
         </div>
         <div className="flex justify-center">
-          <CarouselTeam images={optionsToImages[selectedOption]} />
+          <Carousel images={optionsToImages[selectedOption]} />
         </div>
       </div>
     </div>
