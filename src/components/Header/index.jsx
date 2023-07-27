@@ -16,7 +16,7 @@ export default function Header() {
     setIsExpanded(!isExpanded);
   };
 
-  const handleLinkClick = (e, id) => {
+  const handleLinkClick = (e, id) => { 
     e.preventDefault();
   
     const element = document.getElementById(id);

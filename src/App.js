@@ -8,7 +8,7 @@ import {
   Team,
   Structure,
   // Depositions,
-  // Contact,
+  Contact,
   // // Footer,
 } from './pages';
 
@@ -22,6 +22,7 @@ function App() {
           <About />
           <Team />
           <Structure />
+          <Contact />
           {/* <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
