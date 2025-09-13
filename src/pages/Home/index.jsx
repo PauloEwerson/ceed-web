@@ -6,9 +6,9 @@ function Home() {
     window.location.href = 'https://forms.gle/e8fAuNxiQGyvnPUa6';
   };
 
-  const handleAgenda = () => {
+  /* const handleAgenda = () => {
     window.location.href = 'https://sistema.education1.com.br/estreladalva/resp20';
-  };
+  }; */
 
   return (
     <div id="home" className="flex flex-col items-center justify-center h-screen bg-juicy-blue-space-light bg-body-stars">
@@ -18,7 +18,7 @@ function Home() {
       </h1>
       <div className="mt-8 text-center">
         <Button label="PRÉ-MATRÍCULA" onClick={handlePreMatricula} />
-        <Button label="AGENDA ESCOLAR" primary={true} onClick={handleAgenda}/>
+        {/* <Button label="AGENDA ESCOLAR" primary={true} onClick={handleAgenda}/> */}
       </div>
     </div>
   );
