@@ -1,20 +1,16 @@
 import React from 'react';
 
-function Button({ label, primary, onClick }) {
+function Button({ label, primary, onClick, className }) {
   return (
     <button
       className={`
-        px-8 py-3
+        px-6 py-3
         rounded-full
         font-bold
         text-white
-        w-9/12
-        m-2
-      ${
-        primary
-        ? 'bg-blue-500'
-        : 'bg-yellow-500'}`
-      }
+        ${primary ? 'bg-blue-500' : 'bg-yellow-500'}
+        ${className || ''}
+      `}
       onClick={onClick}
     >
       {label}

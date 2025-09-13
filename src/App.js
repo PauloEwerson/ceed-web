@@ -9,8 +9,9 @@ import {
   Structure,
   // Depositions,
   // Contact,
-  // // Footer,
+  // Footer,
 } from './pages';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
           </Routes> */}
         </main>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </Router>
   );
