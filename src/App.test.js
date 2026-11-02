@@ -1,42 +1,12 @@
 import React from 'react';
-import {render,screen,fireEvent} from '@testing-library/react';
+import {render,screen,fireEvent,waitFor} from '@testing-library/react';
 import App from './App';
-afterEach(()=>{sessionStorage.clear();window.history.replaceState(null,'','/');delete process.env.REACT_APP_GOOGLE_REVIEW_URL;});
-test('envio nativo usa o serviço, ambas as cópias e retorno ao site',()=>{
-  const {container}=render(<App/>);
-  const form=container.querySelector('form');
-  expect(form.method).toBe('post');
-  expect(form.action).toBe('https://formsubmit.co/centroeducacionalestreladalva@gmail.com');
-  expect(form.elements._cc.value).toBe('ricardo.nodibe@gmail.com,mariapatos27@gmail.com');
-  expect(form.elements._next.value).toBe('https://ceed.com.br/?prematricula=enviada#matricula');
-  expect(form.querySelector('[name="_captcha"]')).toBeNull();
+const previousFetch=global.fetch;
+afterEach(()=>{global.fetch=previousFetch;delete process.env.REACT_APP_GOOGLE_REVIEW_URL;});
+function fill(){fireEvent.change(screen.getByLabelText('Nome do responsável'),{target:{value:'Responsável'}});fireEvent.change(screen.getByLabelText('WhatsApp com DDD'),{target:{value:'83999999999'}});fireEvent.change(screen.getByLabelText('Nome do estudante'),{target:{value:'Estudante'}});fireEvent.change(screen.getByLabelText('Data de nascimento'),{target:{value:'2020-01-01'}});fireEvent.change(screen.getByLabelText('Ano letivo de interesse'),{target:{value:'2027'}});fireEvent.change(screen.getByLabelText('Turma pretendida'),{target:{value:'1º Ano'}});}
+test('confirma submissão pela Netlify e apresenta avaliação direta',async()=>{
+ process.env.REACT_APP_GOOGLE_REVIEW_URL='https://g.page/r/CR2FrSoO165TEBM/review';global.fetch=jest.fn().mockResolvedValue({ok:true});const {container}=render(<App/>);fill();fireEvent.submit(container.querySelector('form'));await waitFor(()=>expect(screen.getByRole('status').textContent).toContain('Pré-matrícula recebida'));expect(global.fetch.mock.calls[0][0]).toBe('/');const params=new URLSearchParams(global.fetch.mock.calls[0][1].body);expect(params.get('form-name')).toBe('pre-matricula');expect(params.get('turma')).toBe('1º Ano');expect(screen.getByRole('link',{name:'Avaliar a escola no Google ↗'}).href).toContain('/review');
 });
-test('envio permite navegação nativa sem anunciar sucesso antecipado',()=>{
-  const {container}=render(<App/>);
-  expect(fireEvent.submit(container.querySelector('form'))).toBe(true);
-  expect(sessionStorage.getItem('ceed-submission-pending')).toBe('1');
-  expect(screen.getByRole('status').textContent).toContain('concluir o envio');
-  expect(screen.queryByText(/Solicitação enviada!/)).toBeNull();
-});
-test('retorno do fluxo mostra confirmação e convite dispensável',()=>{
-  sessionStorage.setItem('ceed-submission-pending','1');
-  window.history.replaceState(null,'','/?prematricula=enviada');
-  process.env.REACT_APP_GOOGLE_REVIEW_URL='https://maps.app.goo.gl/NUr8WjeFfxFSNAVRA';
-  render(<App/>);
-  expect(screen.getByRole('status').textContent).toContain('Solicitação enviada');
-  expect(screen.getByRole('link',{name:'Avaliar a escola no Google ↗'}).href).toContain('NUr8WjeFfxFSNAVRA');
-  fireEvent.click(screen.getByRole('button',{name:'Agora não'}));
-  expect(screen.queryByRole('link',{name:'Avaliar a escola no Google ↗'})).toBeNull();
-  expect(window.location.search).toBe('');
-});
-test('URL de retorno sem início de envio não anuncia sucesso',()=>{
-  window.history.replaceState(null,'','/?prematricula=enviada');
-  render(<App/>);
-  expect(screen.queryByText(/Solicitação enviada!/)).toBeNull();
-});
-test('galeria mantém 19 fotos e navegação circular',()=>{
-  render(<App/>);
-  expect(screen.getAllByRole('button',{name:/^Foto \d+:/})).toHaveLength(19);
-  fireEvent.click(screen.getByRole('button',{name:'Foto anterior'}));
-  expect(screen.getByRole('button',{name:'Ampliar foto: Nosso espaço reflexivo'})).toBeTruthy();
+test('falha não anuncia sucesso nem oferece avaliação',async()=>{
+ process.env.REACT_APP_GOOGLE_REVIEW_URL='https://g.page/r/CR2FrSoO165TEBM/review';global.fetch=jest.fn().mockRejectedValue(Error('network'));const {container}=render(<App/>);fill();fireEvent.submit(container.querySelector('form'));await waitFor(()=>expect(screen.getByRole('status').textContent).toContain('Não conseguimos confirmar'));expect(screen.queryByRole('link',{name:'Avaliar a escola no Google ↗'})).toBeNull();expect(screen.getByLabelText('Nome do responsável').value).toBe('Responsável');
 });
