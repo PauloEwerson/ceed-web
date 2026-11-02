@@ -24,11 +24,12 @@ exports.handler = async event => {
       headers:{'Content-Type':'application/json',Accept:'application/json',Origin:'https://ceed.com.br',Referer:'https://ceed.com.br/'},
       body:JSON.stringify({...data,_subject:'Nova pré-matrícula — Centro Educacional Estrela Dalva',_cc:copies,_template:'table',_url:'https://ceed.com.br/'})
     });
-    const result=await response.json();
+    let result; try {result=await response.json();} catch {return reply(502,{success:null,code:'provider_non_json',providerStatus:response.status});}
     if(/activat/i.test(result.message||'')) return reply(409,{success:false,code:'activation',message:'Activation required'});
     if(response.ok && (result.success===true || result.success==='true')) return reply(200,{success:true});
     // Do not expose provider responses or student information in logs.
-    return reply(502,{success:null,code:'unconfirmed'});
-  }catch {return reply(502,{success:null,code:'unconfirmed'});}
+    return reply(502,{success:null,code:'provider_rejected',providerStatus:response.status,reason:typeof result.message==='string'?result.message.slice(0,250):'No message'});
+  }catch(error) {return reply(502,{success:null,code:'provider_connection',reason:error.cause?.code||error.name});}
   finally {clearTimeout(timer);}
 };
+
