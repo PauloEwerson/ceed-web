@@ -12,15 +12,15 @@ function movePhoto(direction){setPhoto(p=>(p+direction+photos.length)%photos.len
 async function submit(e){
   e.preventDefault();
   if(busy||sent)return;
-  const email=process.env.REACT_APP_SCHOOL_EMAIL?.trim();
-  if(!email){setStatus('O formulário está sendo preparado. Por enquanto, fale com nossa equipe pelo WhatsApp abaixo.');return;}
+
+
   const data=Object.fromEntries(new FormData(e.currentTarget));
   setBusy(true);setStatus('Enviando sua pré-matrícula. Aguarde a confirmação nesta página.');
   const controller=new AbortController();
   const slowTimer=setTimeout(()=>setStatus('O serviço está demorando para confirmar. Continue nesta página; não é necessário enviar novamente.'),15000);
   const timer=setTimeout(()=>controller.abort(),90000);
   try{
-    const res=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(email),{method:'POST',signal:controller.signal,headers:{Accept:'application/json'},body:new URLSearchParams({...data,_subject:'Nova pré-matrícula — Centro Educacional Estrela Dalva',_template:'table',_cc:(process.env.REACT_APP_SCHOOL_CC||'').split(',').map(address=>address.trim()).filter(Boolean).join(',')})});
+    const res=await fetch('/.netlify/functions/pre-matricula',{method:'POST',signal:controller.signal,headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)});
     const result=await res.json();
     if(/activat/i.test(result.message||'')){setStatus('O recebimento por e-mail ainda está em ativação pela escola. Seus dados continuam preenchidos. Você pode falar com nossa equipe pelo WhatsApp ou tentar novamente após a ativação.');return;}
     if(res.ok&&(result.success===true||result.success==='true')){

@@ -20,9 +20,9 @@ test('envia para o endereço configurado e inclui ambas as cópias', async () =>
   fireEvent.submit(screen.getByRole('button',{name:'Enviar pré-matrícula ↗'}).closest('form'));
   await waitFor(()=>expect(screen.getByRole('status').textContent).toContain('Solicitação enviada'));
   const [url, options]=global.fetch.mock.calls[0];
-  expect(url).toBe('https://formsubmit.co/ajax/centroeducacionalestreladalva%40gmail.com');
-  expect(new URLSearchParams(options.body).get('_cc')).toBe('ricardo.nodibe@gmail.com,mariapatos27@gmail.com');
-  expect(new URLSearchParams(options.body).get('turma')).toBe('1º Ano');
+  expect(url).toBe('/.netlify/functions/pre-matricula');
+  expect(JSON.parse(options.body)._cc).toBeUndefined();
+  expect(JSON.parse(options.body).turma).toBe('1º Ano');
 });
 test('falha não apaga os dados e permite tentar novamente', async()=>{
   process.env.REACT_APP_SCHOOL_EMAIL='centroeducacionalestreladalva@gmail.com';
