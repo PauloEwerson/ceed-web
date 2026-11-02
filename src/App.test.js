@@ -52,3 +52,19 @@ test('galeria inclui 19 imagens e volta do último item ao primeiro',()=>{
   expect(screen.getByRole('button',{name:'Ampliar foto: Bem-vindos à Estrela Dalva'})).toBeTruthy();
 });
 
+
+test('convite de avaliação aparece apenas após sucesso e pode ser dispensado',async()=>{
+  process.env.REACT_APP_SCHOOL_EMAIL='centroeducacionalestreladalva@gmail.com';
+  process.env.REACT_APP_GOOGLE_REVIEW_URL='https://example.com/review-test';
+  global.fetch=jest.fn().mockResolvedValue({ok:true,json:async()=>({success:'true'})});
+  render(<App/>);
+  expect(screen.queryByRole('link',{name:'Avaliar a escola no Google ↗'})).toBeNull();
+  fillForm();
+  fireEvent.submit(screen.getByRole('button',{name:'Enviar pré-matrícula ↗'}).closest('form'));
+  const link=await screen.findByRole('link',{name:'Avaliar a escola no Google ↗'});
+  expect(link.getAttribute('href')).toBe('https://example.com/review-test');
+  expect(link.getAttribute('target')).toBe('_blank');
+  fireEvent.click(screen.getByRole('button',{name:'Agora não'}));
+  expect(screen.queryByRole('link',{name:'Avaliar a escola no Google ↗'})).toBeNull();
+  delete process.env.REACT_APP_GOOGLE_REVIEW_URL;
+});

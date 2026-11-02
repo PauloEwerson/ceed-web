@@ -5,3 +5,4 @@
 [build.environment]
   REACT_APP_SCHOOL_EMAIL = "centroeducacionalestreladalva@gmail.com"
   REACT_APP_SCHOOL_CC = "ricardo.nodibe@gmail.com,mariapatos27@gmail.com"
+  REACT_APP_GOOGLE_REVIEW_URL = "https://maps.app.goo.gl/NUr8WjeFfxFSNAVRA"
