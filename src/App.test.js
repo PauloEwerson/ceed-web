@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen, fireEvent, waitFor} from '@testing-library/react';
+import {render, screen, fireEvent, waitFor, act} from '@testing-library/react';
 import App from './App';
 
 const originalFetch = global.fetch;
@@ -29,7 +29,7 @@ test('falha não apaga os dados e permite tentar novamente', async()=>{
   global.fetch=jest.fn().mockRejectedValue(new Error('Falha de conexão'));
   render(<App/>); fillForm();
   fireEvent.submit(screen.getByRole('button',{name:'Enviar pré-matrícula ↗'}).closest('form'));
-  await waitFor(()=>expect(screen.getByRole('status').textContent).toContain('Não foi possível enviar'));
+  await waitFor(()=>expect(screen.getByRole('status').textContent).toContain('Não conseguimos confirmar o resultado'));
   expect(screen.getByLabelText('Nome do responsável').value).toBe('Responsável de teste');
   expect(screen.getByRole('button',{name:'Enviar pré-matrícula ↗'}).disabled).toBe(false);
 });
@@ -65,6 +65,35 @@ test('convite de avaliação aparece apenas após sucesso e pode ser dispensado'
   expect(link.getAttribute('href')).toBe('https://example.com/review-test');
   expect(link.getAttribute('target')).toBe('_blank');
   fireEvent.click(screen.getByRole('button',{name:'Agora não'}));
+  expect(screen.queryByRole('link',{name:'Avaliar a escola no Google ↗'})).toBeNull();
+  delete process.env.REACT_APP_GOOGLE_REVIEW_URL;
+});
+
+
+test('resposta após 20 segundos ainda confirma envio e mostra avaliação',async()=>{
+  jest.useFakeTimers();
+  process.env.REACT_APP_SCHOOL_EMAIL='centroeducacionalestreladalva@gmail.com';
+  process.env.REACT_APP_GOOGLE_REVIEW_URL='https://example.com/review-test';
+  let resolveRequest;
+  global.fetch=jest.fn(()=>new Promise(resolve=>{resolveRequest=resolve;}));
+  try{
+    render(<App/>);fillForm();
+    fireEvent.submit(screen.getByRole('button',{name:'Enviar pré-matrícula ↗'}).closest('form'));
+    await act(async()=>{jest.advanceTimersByTime(25000);});
+    expect(global.fetch.mock.calls[0][1].signal.aborted).toBe(false);
+    expect(screen.getByRole('status').textContent).toContain('demorando para confirmar');
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    await act(async()=>{resolveRequest({ok:true,json:async()=>({success:'true'})});});
+    expect(screen.getByRole('status').textContent).toContain('Solicitação enviada');
+    expect(screen.getByRole('link',{name:'Avaliar a escola no Google ↗'})).toBeTruthy();
+  }finally{jest.useRealTimers();delete process.env.REACT_APP_GOOGLE_REVIEW_URL;}
+});
+test('resposta ilegível não anuncia falha definitiva nem mostra avaliação',async()=>{
+  process.env.REACT_APP_GOOGLE_REVIEW_URL='https://example.com/review-test';
+  global.fetch=jest.fn().mockResolvedValue({ok:true,json:async()=>{throw new Error('Resposta interrompida');}});
+  render(<App/>);fillForm();
+  fireEvent.submit(screen.getByRole('button',{name:'Enviar pré-matrícula ↗'}).closest('form'));
+  await waitFor(()=>expect(screen.getByRole('status').textContent).toContain('A escola pode já ter recebido'));
   expect(screen.queryByRole('link',{name:'Avaliar a escola no Google ↗'})).toBeNull();
   delete process.env.REACT_APP_GOOGLE_REVIEW_URL;
 });
