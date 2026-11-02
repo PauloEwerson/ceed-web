@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  REACT_APP_SCHOOL_EMAIL = "centroeducacionalestreladalva@gmail.com"
+  REACT_APP_SCHOOL_CC = "ricardo.nodibe@gmail.com,mariapatos27@gmail.com"
